@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выполнение заданий по программированию</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            font-size: 1.6rem;
+            margin: 20px 0 15px;
+            color: #2c3e50;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        
+        .task {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+            white-space: pre-wrap;
+        }
+        
+        .fragments-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .fragment {
+            background-color: #e9ecef;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+        
+        @media (max-width: 768px) {
+            .task {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Выполнение заданий по программированию</h1>
+            <p>Интерактивная страница для выполнения трех заданий</p>
+        </header>
+        
+        <!-- Задание 1 -->
+        <section class="task">
+            <h2>Задание 1: Проверка високосного года</h2>
+            <p>Определить, является ли год високосным, и вывести количество дней в году.</p>
+            
+            <div class="input-group">
+                <label for="yearInput">Введите год:</label>
+                <input type="number" id="yearInput" placeholder="Например: 2024">
+            </div>
+            
+            <button onclick="checkLeapYear()">Проверить год</button>
+            
+            <div id="yearResult" class="result" style="display: none;"></div>
+        </section>
+        
+        <!-- Задание 2 -->
+        <section class="task">
+            <h2>Задание 2: Обработка массива действительных чисел</h2>
+            <p>Часть А: Вычислить сумму элементов между первым и последним элементами, удовлетворяющими условию.<br>
+               Часть Б: Удалить из массива элементы, модуль целой части которых имеет четную сумму цифр.</p>
+            
+            <div class="input-group">
+                <label for="arrayInput">Введите массив чисел (через запятую):</label>
+                <input type="text" id="arrayInput" placeholder="Например: 4.5, 16.2, 25.8, 36.1, 49.9">
+            </div>
+            
+            <button onclick="processArray()">Обработать массив</button>
+            
+            <div id="arrayResult" class="result" style="display: none;"></div>
+        </section>
+        
+        <!-- Задание 4 -->
+        <section class="task">
+            <h2>Задание 4: Разделение строки на фрагменты</h2>
+            <p>Разделить строку на фрагменты по 3 символа в каждом.</p>
+            
+            <div class="input-group">
+                <label for="stringInput">Введите строку:</label>
+                <textarea id="stringInput" rows="3" placeholder="Введите текст для разделения">Пример строки для разделения на фрагменты</textarea>
+            </div>
+            
+            <button onclick="splitString()">Разделить строку</button>
+            
+            <div id="stringResult" class="result" style="display: none;"></div>
+        </section>
+    </div>
+
+    <script>
+        // Задание 1: Проверка високосного года
+        function checkLeapYear() {
+            const yearInput = document.getElementById('yearInput');
+            const resultDiv = document.getElementById('yearResult');
+            
+            const year = parseInt(yearInput.value);
+            
+            if (isNaN(year) || year <= 0) {
+                resultDiv.innerHTML = "Пожалуйста, введите корректный год!";
+                resultDiv.style.display = 'block';
+                return;
+            }
+            
+            let isLeap = false;
+            let daysInYear = 365;
+            
+            if ((year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)) {
+                isLeap = true;
+                daysInYear = 366;
+            }
+            
+            resultDiv.innerHTML = `Год: ${year}\nРезультат: ${isLeap ? 'високосный' : 'невисокосный'}\nКоличество дней в году: ${daysInYear}`;
+            resultDiv.style.display = 'block';
+        }
+        
+        // Задание 2: Обработка массива
+        function processArray() {
+            const arrayInput = document.getElementById('arrayInput');
+            const resultDiv = document.getElementById('arrayResult');
+            
+            const inputText = arrayInput.value.trim();
+            
+            if (!inputText) {
+                resultDiv.innerHTML = "Пожалуйста, введите массив чисел!";
+                resultDiv.style.display = 'block';
+                return;
+            }
+            
+            const numbers = inputText.split(',').map(num => parseFloat(num.trim())).filter(num => !isNaN(num));
+            
+            if (numbers.length === 0) {
+                resultDiv.innerHTML = "Не удалось распознать числа в введенной строке!";
+                resultDiv.style.display = 'block';
+                return;
+            }
+            
+            let resultText = `Исходный массив: [${numbers.join(', ')}]\n\n`;
+            
+            // Часть А
+            let firstIndex = -1;
+            let lastIndex = -1;
+            
+            for (let i = 0; i < numbers.length; i++) {
+                const num = numbers[i];
+                if (num >= 0) {
+                    const sqrt = Math.sqrt(num);
+                    const cbrt = Math.cbrt(num);
+                    const diff = Math.abs(sqrt - cbrt);
+                    
+                    if (diff <= 1e-5) {
+                        if (firstIndex === -1) {
+                            firstIndex = i;
+                        }
+                        lastIndex = i;
+                    }
+                }
+            }
+            
+            let sumBetween = 0;
+            if (firstIndex !== -1 && lastIndex !== -1 && firstIndex < lastIndex) {
+                for (let i = firstIndex + 1; i < lastIndex; i++) {
+                    sumBetween += numbers[i];
+                }
+                resultText += `Часть А:\nПервый подходящий элемент: numbers[${firstIndex}] = ${numbers[firstIndex]}\nПоследний подходящий элемент: numbers[${lastIndex}] = ${numbers[lastIndex]}\nСумма элементов между ними: ${sumBetween.toFixed(4)}\n\n`;
+            } else {
+                resultText += `Часть А:\nНет подходящих элементов или они находятся рядом\n\n`;
+            }
+            
+            // Часть Б
+            const filteredArray = numbers.filter(num => {
+                const integerPart = Math.abs(Math.trunc(num));
+                const digitsSum = integerPart.toString()
+                    .split('')
+                    .map(Number)
+                    .reduce((sum, digit) => sum + digit, 0);
+                
+                return digitsSum % 2 !== 0;
+            });
+            
+            resultText += `Часть Б:\nОтфильтрованный массив: [${filteredArray.join(', ')}]\nУдалено элементов: ${numbers.length - filteredArray.length}`;
+            
+            resultDiv.innerHTML = resultText;
+            resultDiv.style.display = 'block';
+        }
+        
+        // Задание 4: Разделение строки на фрагменты
+        function splitString() {
+            const stringInput = document.getElementById('stringInput');
+            const resultDiv = document.getElementById('stringResult');
+            
+            const inputString = stringInput.value.trim();
+            
+            if (!inputString) {
+                resultDiv.innerHTML = "Пожалуйста, введите строку!";
+                resultDiv.style.display = 'block';
+                return;
+            }
+            
+            const fragmentLength = 3;
+            const fragments = [];
+            
+            for (let i = 0; i < inputString.length; i += fragmentLength) {
+                const fragment = inputString.substring(i, i + fragmentLength);
+                fragments.push(fragment);
+            }
+            
+            let resultHTML = `Исходная строка: "${inputString}"\n\nФрагменты по ${fragmentLength} символа:\n`;
+            
+            const fragmentsContainer = document.createElement('div');
+            fragmentsContainer.className = 'fragments-container';
+            
+            fragments.forEach((fragment, index) => {
+                const fragmentElement = document.createElement('div');
+                fragmentElement.className = 'fragment';
+                fragmentElement.textContent = `[${index+1}] "${fragment}"`;
+                fragmentsContainer.appendChild(fragmentElement);
+                
+                resultHTML += `Фрагмент ${index + 1}: "${fragment}"\n`;
+            });
+            
+            resultDiv.innerHTML = resultHTML;
+            resultDiv.appendChild(fragmentsContainer);
+            resultDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
