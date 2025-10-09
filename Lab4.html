@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Маятник Ньютона с автомобилем</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background: #2F4F4F; /* Графитовый фон */
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            margin: 20px;
+        }
+        
+        h1 {
+            color: #F5F5F5; /* Светлый текст для контраста */
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        /* Автомобиль */
+        .car-container {
+            position: relative;
+            width: 300px;
+            height: 150px;
+        }
+        
+        .car {
+            position: absolute;
+            width: 250px;
+            height: 80px;
+            background: #FF4136;
+            border-radius: 15px 15px 5px 5px;
+            bottom: 0;
+            left: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+        
+        .car-top {
+            position: absolute;
+            width: 180px;
+            height: 60px;
+            background: #FF4136;
+            border-radius: 40px 40px 0 0;
+            bottom: 80px;
+            left: 60px;
+        }
+        
+        .window {
+            position: absolute;
+            width: 150px;
+            height: 40px;
+            background: #87CEEB;
+            border-radius: 30px 30px 0 0;
+            bottom: 85px;
+            left: 75px;
+        }
+        
+        .wheel {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: #333;
+            border-radius: 50%;
+            bottom: -10px;
+            animation: rotate 3s linear infinite;
+        }
+        
+        .wheel::before {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: #AAA;
+            border-radius: 50%;
+            top: 12.5px;
+            left: 12.5px;
+        }
+        
+        .wheel-front {
+            left: 40px;
+        }
+        
+        .wheel-back {
+            right: 40px;
+        }
+        
+        .headlight {
+            position: absolute;
+            width: 15px;
+            height: 10px;
+            background: yellow;
+            border-radius: 5px;
+            bottom: 20px;
+        }
+        
+        .headlight-front {
+            left: 10px;
+        }
+        
+        .headlight-back {
+            right: 10px;
+            background: red;
+        }
+        
+        /* Маятник Ньютона */
+        .newton_cradle {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            padding: 0;
+            border-top: 10px solid silver;
+            border-left: 10px solid silver;
+            border-right: 10px solid silver;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0px 3px 10px -3px rgba(0, 0, 0, 0.5);
+            background: white;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .newton_cradle::before {
+            content: "@Sevastopol'";
+            display: block;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            width: 260px;
+            height: 10px;
+            background: silver;
+            text-align: center;
+            font-size: 6px;
+            font-family: Verdana;
+            color: white;
+            letter-spacing: 1px;
+            line-height: 11px;
+            text-shadow: 0.5px 0.5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .newton_cradle::after {
+            content: 'Колыбель Ньютона';
+            display: block;
+            position: absolute;
+            bottom: -20px;
+            left: -50px;
+            width: 400px;
+            height: 20px;
+            border-radius: 25px 25px 0 0;
+            background: silver;
+            background: radial-gradient(silver, lightgray, silver);
+            border: 2px solid silver;
+            box-shadow: 1px 5px 10px 3px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            font-size: 10px;
+            font-family: Verdana;
+            color: dimgray;
+            letter-spacing: 1px;
+            line-height: 20px;
+        }
+        
+        .balls-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            position: relative;
+            margin-top: 100px;
+            gap: 0; /* Убираем промежутки между шарами */
+        }
+        
+        .ball {
+            z-index: 1;
+            position: relative;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle at 65% 15%, white 1px, lightgray 3%, gray 60%, lightgray 100%);
+            box-shadow: 1px 5px 10px 3px rgba(0, 0, 0, 0.3);
+            border-radius: 100%;
+            transform-origin: 50% -100px;
+            margin: 0; /* Убираем внешние отступы */
+        }
+        
+        .ball::before {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 16px;
+            height: 16px;
+            border-radius: 100%;
+            background-color: white;
+            filter: blur(4px);
+        }
+        
+        .ball::after {
+            content: '';
+            display: block;
+            position: absolute;
+            top: -100px;
+            left: 19px;
+            height: 100px;
+            width: 2px;
+            background: gray;
+        }
+        
+        /* Анимация маятника */
+        .ball:nth-child(1) {
+            animation: ball1 3s infinite ease-in-out;
+        }
+        
+        .ball:nth-child(2), .ball:nth-child(3), .ball:nth-child(4) {
+            animation: ballMiddle 3s infinite ease-in-out;
+        }
+        
+        .ball:nth-child(5) {
+            animation: ball5 3s infinite ease-in-out;
+        }
+        
+        @keyframes ball1 {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            10% {
+                transform: rotate(45deg);
+            }
+            30% {
+                transform: rotate(0deg);
+            }
+            50%, 100% {
+                transform: rotate(0deg);
+            }
+        }
+        
+        @keyframes ballMiddle {
+            0%, 50% {
+                transform: rotate(0deg);
+            }
+            55% {
+                transform: rotate(5deg);
+            }
+            60% {
+                transform: rotate(-5deg);
+            }
+            65% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+        
+        @keyframes ball5 {
+            0%, 50% {
+                transform: rotate(0deg);
+            }
+            60% {
+                transform: rotate(-45deg);
+            }
+            80% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+        
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Маятник Ньютона с автомобилем</h1>
+        
+        <div class="car-container">
+            <div class="car">
+                <div class="car-top"></div>
+                <div class="window"></div>
+                <div class="wheel wheel-front"></div>
+                <div class="wheel wheel-back"></div>
+                <div class="headlight headlight-front"></div>
+                <div class="headlight headlight-back"></div>
+            </div>
+        </div>
+        
+        <div class="newton_cradle">
+            <div class="balls-container">
+                <div class="ball"></div>
+                <div class="ball"></div>
+                <div class="ball"></div>
+                <div class="ball"></div>
+                <div class="ball"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
