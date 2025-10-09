@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Формуляр читателя в библиотеке</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        /* Стили для десктопной версии */
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .checkbox-group input {
+            width: auto;
+            margin-right: 10px;
+        }
+        
+        .checkbox-group label {
+            margin-bottom: 0;
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option input {
+            width: auto;
+            margin-right: 5px;
+        }
+        
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .submit-btn {
+            background: #3498db;
+            color: white;
+        }
+        
+        .submit-btn:hover {
+            background: #2980b9;
+        }
+        
+        .reset-btn {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .reset-btn:hover {
+            background: #c0392b;
+        }
+        
+        /* Стили для мобильной версии */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            label {
+                display: none; /* Скрываем label на мобильных устройствах */
+            }
+            
+            input::placeholder {
+                color: #666;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            button {
+                width: 100%;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+        
+        /* Дополнительные стили для улучшения UX */
+        .required::after {
+            content: " *";
+            color: #e74c3c;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .form-section h2 {
+            font-size: 1.2em;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Формуляр читателя в библиотеке</h1>
+        
+        <form id="libraryForm">
+            <div class="form-section">
+                <h2>Личная информация</h2>
+                
+                <div class="form-group">
+                    <label for="fullName" class="required">ФИО</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="ФИО" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="birthDate">Дата рождения</label>
+                    <input type="date" id="birthDate" name="birthDate">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Контактный телефон</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Контактный телефон">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Электронная почта</label>
+                    <input type="email" id="email" name="email" placeholder="Электронная почта">
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h2>Адрес</h2>
+                
+                <div class="form-group">
+                    <label for="address">Адрес проживания</label>
+                    <input type="text" id="address" name="address" placeholder="Адрес проживания">
+                </div>
+                
+                <div class="form-group">
+                    <label for="postalCode">Почтовый индекс</label>
+                    <input type="text" id="postalCode" name="postalCode" placeholder="Почтовый индекс" pattern="[0-9]{6}">
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h2>Интересы и предпочтения</h2>
+                
+                <div class="form-group">
+                    <label>Предпочитаемые жанры литературы</label>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="fiction" name="genres" value="fiction">
+                        <label for="fiction">Художественная литература</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="science" name="genres" value="science">
+                        <label for="science">Научная литература</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="history" name="genres" value="history">
+                        <label for="history">Историческая литература</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="fantasy" name="genres" value="fantasy">
+                        <label for="fantasy">Фэнтези и фантастика</label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Тип читательского билета</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="standard" name="cardType" value="standard" checked>
+                            <label for="standard">Стандартный</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="premium" name="cardType" value="premium">
+                            <label for="premium">Премиум</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="student" name="cardType" value="student">
+                            <label for="student">Студенческий</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="preferredFormat">Предпочитаемый формат книг</label>
+                    <select id="preferredFormat" name="preferredFormat">
+                        <option value="paper">Бумажные книги</option>
+                        <option value="electronic">Электронные книги</option>
+                        <option value="both">Оба формата</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="comments">Дополнительные пожелания</label>
+                    <textarea id="comments" name="comments" placeholder="Дополнительные пожелания"></textarea>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="agree" name="agree" required>
+                    <label for="agree" class="required">Согласен с правилами библиотеки</label>
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button type="submit" class="submit-btn">Зарегистрироваться</button>
+                <button type="reset" class="reset-btn">Очистить форму</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('libraryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Форма успешно отправлена! Ваш читательский билет будет готов в течение 3 рабочих дней.');
+        });
+    </script>
+</body>
+</html>
