@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма регистрации</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .checkbox-group, .radio-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .checkbox-group input, .radio-group input {
+            width: auto;
+            margin-right: 10px;
+        }
+        
+        .checkbox-group label, .radio-group label {
+            margin-bottom: 0;
+            font-weight: normal;
+        }
+        
+        .options-container {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #eee;
+        }
+        
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .submit-btn {
+            background: #3498db;
+            color: white;
+        }
+        
+        .submit-btn:hover {
+            background: #2980b9;
+        }
+        
+        .reset-btn {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .reset-btn:hover {
+            background: #c0392b;
+        }
+        
+        .required::after {
+            content: " *";
+            color: #e74c3c;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .form-section h2 {
+            font-size: 1.2em;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+        
+        .error {
+            border-color: #e74c3c !important;
+            box-shadow: 0 0 5px rgba(231, 76, 60, 0.3) !important;
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: block;
+        }
+        
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            display: none;
+        }
+        
+        .result h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .result-item {
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Форма регистрации</h1>
+        
+        <form id="regForm">
+            <div class="form-section">
+                <h2>Основная информация</h2>
+                
+                <div class="form-group">
+                    <label for="name" class="required">Имя</label>
+                    <input type="text" id="name" name="name" placeholder="Введите ваше имя">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="required">Email</label>
+                    <input type="text" id="email" name="email" placeholder="Введите ваш email">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone" class="required">Телефон</label>
+                    <input type="text" id="phone" name="phone" placeholder="Введите ваш телефон">
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h2>Дополнительная информация</h2>
+                
+                <div class="form-group">
+                    <label for="education" class="required">Образование</label>
+                    <select id="education" name="education">
+                        <option value="">-- Выберите образование --</option>
+                        <option value="school">Среднее</option>
+                        <option value="college">Среднее специальное</option>
+                        <option value="bachelor">Бакалавр</option>
+                        <option value="master">Магистр</option>
+                        <option value="phd">Аспирантура</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="required">Пол</label>
+                    <div class="options-container">
+                        <div class="radio-group">
+                            <input type="radio" id="sex-m" name="sex" value="Мужской">
+                            <label for="sex-m">Мужской</label>
+                        </div>
+                        <div class="radio-group">
+                            <input type="radio" id="sex-f" name="sex" value="Женский">
+                            <label for="sex-f">Женский</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="required">Хобби</label>
+                    <div class="options-container">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="hobby-1" name="hobby" value="Спорт">
+                            <label for="hobby-1">Спорт</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="hobby-2" name="hobby" value="Чтение">
+                            <label for="hobby-2">Чтение</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="hobby-3" name="hobby" value="Музыка">
+                            <label for="hobby-3">Музыка</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="hobby-4" name="hobby" value="Путешествия">
+                            <label for="hobby-4">Путешествия</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="hobby-5" name="hobby" value="Программирование">
+                            <label for="hobby-5">Программирование</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="about" class="required">О себе</label>
+                    <textarea id="about" name="about" placeholder="Расскажите о себе"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="avatar" class="required">Аватар</label>
+                    <input type="file" id="avatar" name="avatar">
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button type="submit" class="submit-btn">Зарегистрироваться</button>
+                <button type="reset" class="reset-btn">Очистить форму</button>
+            </div>
+        </form>
+        
+        <div class="result" id="result">
+            <h3>Данные формы:</h3>
+            <div id="resultContent"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('regForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Очистка предыдущих ошибок
+            clearErrors();
+            
+            let hasError = false;
+            
+            // Валидация имени
+            const nameInput = document.getElementById('name');
+            if (nameInput.value.trim() === '') {
+                showError(nameInput, 'Заполните поле имени');
+                hasError = true;
+            } else if (nameInput.value.trim().length < 2) {
+                showError(nameInput, 'Имя должно содержать минимум 2 символа');
+                hasError = true;
+            }
+            
+            // Валидация email
+            const emailInput = document.getElementById('email');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (emailInput.value.trim() === '') {
+                showError(emailInput, 'Заполните поле email');
+                hasError = true;
+            } else if (!emailRegex.test(emailInput.value)) {
+                showError(emailInput, 'Введите корректный email');
+                hasError = true;
+            }
+            
+            // Валидация телефона
+            const phoneInput = document.getElementById('phone');
+            const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
+            if (phoneInput.value.trim() === '') {
+                showError(phoneInput, 'Заполните поле телефона');
+                hasError = true;
+            } else if (!phoneRegex.test(phoneInput.value.replace(/\s/g, ''))) {
+                showError(phoneInput, 'Введите корректный номер телефона');
+                hasError = true;
+            }
+            
+            // Валидация образования
+            const educationInput = document.getElementById('education');
+            if (educationInput.value === '') {
+                showError(educationInput, 'Выберите образование');
+                hasError = true;
+            }
+            
+            // Валидация пола
+            const sexInputs = document.querySelectorAll('input[name="sex"]');
+            let sexChecked = false;
+            sexInputs.forEach(input => {
+                if (input.checked) sexChecked = true;
+            });
+            if (!sexChecked) {
+                showError(document.querySelector('input[name="sex"]').closest('.options-container'), 'Выберите пол');
+                hasError = true;
+            }
+            
+            // Валидация хобби
+            const hobbyInputs = document.querySelectorAll('input[name="hobby"]');
+            let hobbyChecked = false;
+            hobbyInputs.forEach(input => {
+                if (input.checked) hobbyChecked = true;
+            });
+            if (!hobbyChecked) {
+                showError(document.querySelector('input[name="hobby"]').closest('.options-container'), 'Выберите хотя бы одно хобби');
+                hasError = true;
+            }
+            
+            // Валидация "О себе"
+            const aboutInput = document.getElementById('about');
+            if (aboutInput.value.trim() === '') {
+                showError(aboutInput, 'Заполните поле "О себе"');
+                hasError = true;
+            } else if (aboutInput.value.trim().length < 10) {
+                showError(aboutInput, 'Расскажите о себе подробнее (минимум 10 символов)');
+                hasError = true;
+            }
+            
+            // Валидация аватара
+            const avatarInput = document.getElementById('avatar');
+            if (avatarInput.value === '') {
+                showError(avatarInput, 'Выберите файл аватара');
+                hasError = true;
+            }
+            
+            // Если ошибок нет, показываем результат
+            if (!hasError) {
+                showResult();
+                this.reset();
+            }
+        });
+        
+        function showError(element, message) {
+            element.classList.add('error');
+            const errorElement = document.createElement('span');
+            errorElement.className = 'error-message';
+            errorElement.textContent = message;
+            element.parentNode.appendChild(errorElement);
+        }
+        
+        function clearErrors() {
+            // Удаляем все сообщения об ошибках
+            const errorMessages = document.querySelectorAll('.error-message');
+            errorMessages.forEach(msg => msg.remove());
+            
+            // Убираем класс error со всех элементов
+            const errorElements = document.querySelectorAll('.error');
+            errorElements.forEach(el => el.classList.remove('error'));
+        }
+        
+        function showResult() {
+            const resultDiv = document.getElementById('result');
+            const resultContent = document.getElementById('resultContent');
+            
+            // Собираем данные
+            let resultHTML = '';
+            
+            // Имя
+            resultHTML += `<div class="result-item"><strong>Имя:</strong> ${document.getElementById('name').value}</div>`;
+            
+            // Email
+            resultHTML += `<div class="result-item"><strong>Email:</strong> ${document.getElementById('email').value}</div>`;
+            
+            // Телефон
+            resultHTML += `<div class="result-item"><strong>Телефон:</strong> ${document.getElementById('phone').value}</div>`;
+            
+            // Образование
+            const educationSelect = document.getElementById('education');
+            resultHTML += `<div class="result-item"><strong>Образование:</strong> ${educationSelect.options[educationSelect.selectedIndex].text}</div>`;
+            
+            // Пол
+            const sexInputs = document.querySelectorAll('input[name="sex"]');
+            let selectedSex = '';
+            sexInputs.forEach(input => {
+                if (input.checked) selectedSex = input.value;
+            });
+            resultHTML += `<div class="result-item"><strong>Пол:</strong> ${selectedSex}</div>`;
+            
+            // Хобби
+            const hobbyInputs = document.querySelectorAll('input[name="hobby"]:checked');
+            const hobbies = Array.from(hobbyInputs).map(input => input.value);
+            resultHTML += `<div class="result-item"><strong>Хобби:</strong> ${hobbies.join(', ')}</div>`;
+            
+            // О себе
+            resultHTML += `<div class="result-item"><strong>О себе:</strong> ${document.getElementById('about').value}</div>`;
+            
+            // Аватар
+            const avatarInput = document.getElementById('avatar');
+            const fileName = avatarInput.value.split('\\').pop();
+            resultHTML += `<div class="result-item"><strong>Аватар:</strong> ${fileName}</div>`;
+            
+            resultContent.innerHTML = resultHTML;
+            resultDiv.style.display = 'block';
+            
+            // Прокрутка к результатам
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Очистка ошибок при изменении полей
+        const inputs = document.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                this.classList.remove('error');
+                const errorMsg = this.parentNode.querySelector('.error-message');
+                if (errorMsg) errorMsg.remove();
+            });
+        });
+    </script>
+</body>
+</html>
