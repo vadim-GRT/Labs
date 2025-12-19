@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация пользователя</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        input[type="text"],
+        input[type="password"],
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+        }
+        
+        .required::after {
+            content: " *";
+            color: red;
+        }
+        
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .success {
+            color: green;
+            font-size: 16px;
+            text-align: center;
+            padding: 15px;
+            background-color: #e8f5e9;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+        
+        .password-strength {
+            height: 5px;
+            margin-top: 5px;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+        
+        .weak {
+            width: 33%;
+            background-color: #ff5252;
+        }
+        
+        .medium {
+            width: 66%;
+            background-color: #ffb142;
+        }
+        
+        .strong {
+            width: 100%;
+            background-color: #2ed573;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+    <script>
+        // JavaScript для валидации формы на стороне клиента
+        function validateForm() {
+            const fio = document.getElementById('fio').value.trim();
+            const login = document.getElementById('login').value.trim();
+            const password = document.getElementById('password').value;
+            const birthDate = document.getElementById('birth_date').value;
+            
+            let isValid = true;
+            let errorMessage = '';
+            
+            // Валидация ФИО
+            if (fio === '') {
+                isValid = false;
+                errorMessage += 'ФИО обязательно для заполнения\n';
+            } else if (fio.split(' ').length < 2) {
+                isValid = false;
+                errorMessage += 'Введите фамилию, имя и отчество\n';
+            }
+            
+            // Валидация логина
+            if (login === '') {
+                isValid = false;
+                errorMessage += 'Логин обязателен для заполнения\n';
+            } else if (login.length < 3) {
+                isValid = false;
+                errorMessage += 'Логин должен содержать не менее 3 символов\n';
+            }
+            
+            // Валидация пароля
+            if (password === '') {
+                isValid = false;
+                errorMessage += 'Пароль обязателен для заполнения\n';
+            } else if (password.length < 6) {
+                isValid = false;
+                errorMessage += 'Пароль должен содержать не менее 6 символов\n';
+            }
+            
+            // Валидация даты рождения
+            if (birthDate === '') {
+                isValid = false;
+                errorMessage += 'Дата рождения обязательна для заполнения\n';
+            } else {
+                const birthDateObj = new Date(birthDate);
+                const today = new Date();
+                const age = today.getFullYear() - birthDateObj.getFullYear();
+                
+                if (age < 18) {
+                    isValid = false;
+                    errorMessage += 'Регистрация доступна только с 18 лет\n';
+                }
+            }
+            
+            if (!isValid) {
+                alert(errorMessage);
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // Функция для проверки сложности пароля
+        function checkPasswordStrength(password) {
+            const strengthBar = document.getElementById('password-strength');
+            
+            if (password.length === 0) {
+                strengthBar.className = 'password-strength';
+                strengthBar.style.width = '0%';
+                return;
+            }
+            
+            let strength = 0;
+            
+            // Проверка длины
+            if (password.length >= 8) strength++;
+            
+            // Проверка наличия строчных букв
+            if (/[a-zа-я]/.test(password)) strength++;
+            
+            // Проверка наличия заглавных букв
+            if (/[A-ZА-Я]/.test(password)) strength++;
+            
+            // Проверка наличия цифр
+            if (/[0-9]/.test(password)) strength++;
+            
+            // Проверка наличия специальных символов
+            if (/[^A-Za-zА-Яа-я0-9]/.test(password)) strength++;
+            
+            // Обновляем индикатор
+            if (strength <= 2) {
+                strengthBar.className = 'password-strength weak';
+            } else if (strength <= 4) {
+                strengthBar.className = 'password-strength medium';
+            } else {
+                strengthBar.className = 'password-strength strong';
+            }
+        }
+        
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('password');
+            if (passwordInput) {
+                passwordInput.addEventListener('input', function() {
+                    checkPasswordStrength(this.value);
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Регистрация пользователя</h1>
+        
+        <form action="process_registration.php" method="POST" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="fio" class="required">ФИО</label>
+                <input type="text" id="fio" name="fio" placeholder="Введите фамилию, имя и отчество">
+                <div class="error" id="fio-error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="login" class="required">Логин</label>
+                <input type="text" id="login" name="login" placeholder="Введите логин (мин. 3 символа)">
+                <div class="error" id="login-error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password" class="required">Пароль</label>
+                <input type="password" id="password" name="password" placeholder="Введите пароль (мин. 6 символов)">
+                <div id="password-strength" class="password-strength"></div>
+                <div class="error" id="password-error"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="birth_date" class="required">Дата рождения</label>
+                <input type="date" id="birth_date" name="birth_date">
+                <div class="error" id="birthdate-error"></div>
+            </div>
+            
+            <button type="submit" class="submit-btn">Зарегистрироваться</button>
+        </form>
+        
+        <div class="form-footer">
+            <p>Все поля, отмеченные *, обязательны для заполнения</p>
+        </div>
+    </div>
+</body>
+</html>
